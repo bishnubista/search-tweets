@@ -1,21 +1,21 @@
 const express = require('express');
 const util = require('util');
 const request = require('request');
-
+require('dotenv').config({ path: __dirname + '/./../.env' });
 const app = express();
 
 let port = process.env.PORT || 4000;
 const get = util.promisify(request.get);
 app.use(express.json());
 
-const BEARER_TOKEN =
-  'AAAAAAAAAAAAAAAAAAAAAI4OHgEAAAAAlbk0HSIAqcc3havrrU9j2NeAQ34%3DzJmzwHuQerd8JJ2TeuHfqwKgBt6bK4tk93w3ocBB2vPuKMF3cG';
+console.log(process.env);
+const BEARER_TOKEN = process.env.BEARER_TOKEN;
 
 const tweetUrl = 'https://api.twitter.com/1.1/search/tweets.json';
 
 app.post('/api/twitter', async (req, res) => {
   if (!BEARER_TOKEN) {
-    res.status(400).send('authMessage');
+    res.status(400).send(res.body.error.message);
   }
 
   const { q } = req.body;
