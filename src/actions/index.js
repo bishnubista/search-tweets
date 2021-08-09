@@ -1,0 +1,1 @@
+export { fetchTweet } from './fetchTweetAction';
